@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:layout_margin="8dp"
+        android:elevation="5dp"
+        android:padding="16dp"
+        android:background="@drawable/round_corner">
+
+        <ImageView
+            android:id="@+id/product_image"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"/>
+
+        <TextView
+            android:id="@+id/product_name"
+            android:fontFamily="@font/iran_yekan_reqular_mobile_fa_num"
+            android:maxLines="2"
+            android:maxEms="30"
+            android:layout_gravity="right"
+            android:ellipsize="end"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="اسم کالا"/>
+
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_gravity="left"
+            android:fontFamily="@font/iran_yekan_reqular_mobile_fa_num"
+            android:layout_marginTop="20dp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2000"/>
+
+    </LinearLayout>
+
+</layout>
