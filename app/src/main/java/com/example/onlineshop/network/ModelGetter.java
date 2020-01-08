@@ -57,9 +57,11 @@ public class ModelGetter {
         mRequestService.getProducts(localMap).enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (!response.isSuccessful())
+                    return;
                 mRepository.setTotalProducts(Integer.valueOf(response.headers().get("x-wp-total")));
                 List<Product> finalList = mRepository.getLiveProducts().getValue();
-                if(finalList == null)
+                if (finalList == null)
                     finalList = new ArrayList<>();
                 finalList.addAll(response.body());
                 mRepository.getLiveProducts().setValue(finalList);
@@ -79,15 +81,16 @@ public class ModelGetter {
      */
     public void getSingleProductFromNet(int id) {
 
-        mRequestService.getProduct(id,mQueryMap).enqueue(new Callback<Product>() {
+        mRequestService.getProduct(id, mQueryMap).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
-                mRepository.getLiveProduct().setValue(response.body());
+                if (response.isSuccessful())
+                    mRepository.getLiveProduct().setValue(response.body());
             }
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
-                Log.d(TAG, "onFailure: getProduct "+ t.getMessage());
+                Log.d(TAG, "onFailure: getProduct " + t.getMessage());
             }
         });
     }
@@ -109,8 +112,10 @@ public class ModelGetter {
         mRequestService.getProducts(localMap).enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if(!response.isSuccessful())
+                    return;
                 List<Product> finalList = mRepository.getLiveRecentProducts().getValue();
-                if(finalList == null)
+                if (finalList == null)
                     finalList = new ArrayList<>();
                 finalList.addAll(response.body());
                 mRepository.getLiveRecentProducts().setValue(finalList);
@@ -138,8 +143,10 @@ public class ModelGetter {
         mRequestService.getProducts(localMap).enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if(!response.isSuccessful())
+                    return;
                 List<Product> finalList = mRepository.getLiveTopRatedProducts().getValue();
-                if(finalList == null)
+                if (finalList == null)
                     finalList = new ArrayList<>();
                 finalList.addAll(response.body());
                 mRepository.getLiveTopRatedProducts().setValue(finalList);
@@ -168,8 +175,11 @@ public class ModelGetter {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
 
+                if(!response.isSuccessful())
+                    return;
+
                 List<Product> finalList = mRepository.getLivePopularProducts().getValue();
-                if(finalList == null)
+                if (finalList == null)
                     finalList = new ArrayList<>();
                 finalList.addAll(response.body());
                 mRepository.getLivePopularProducts().setValue(finalList);
@@ -198,9 +208,11 @@ public class ModelGetter {
         mRequestService.getProducts(localMap).enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (!response.isSuccessful())
+                    return;
                 mRepository.setTotalCategoryBaseProducts(Integer.valueOf(response.headers().get("x-wp-total")));
                 List<Product> finalList = mRepository.getLiveProducts().getValue();
-                if(finalList == null)
+                if (finalList == null)
                     finalList = new ArrayList<>();
                 finalList.addAll(response.body());
                 mRepository.getLiveProducts().setValue(finalList);
@@ -229,9 +241,12 @@ public class ModelGetter {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
 
+                if(!response.isSuccessful())
+                    return;
+
                 mRepository.setTotalCategories(Integer.valueOf(response.headers().get("x-wp-total")));
                 List<Category> finalList = mRepository.getLiveCategories().getValue();
-                if(finalList == null)
+                if (finalList == null)
                     finalList = new ArrayList<>();
                 finalList.addAll(response.body());
                 mRepository.getLiveCategories().setValue(finalList);
@@ -261,9 +276,12 @@ public class ModelGetter {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
 
+                if(!response.isSuccessful())
+                    return;
+
                 mRepository.setTotalSearchResult(Integer.valueOf(response.headers().get("x-wp-total")));
                 List<Product> finalList = mRepository.getLiveSearchResult().getValue();
-                if(finalList == null)
+                if (finalList == null)
                     finalList = new ArrayList<>();
                 finalList.addAll(response.body());
                 mRepository.getLiveSearchResult().setValue(finalList);

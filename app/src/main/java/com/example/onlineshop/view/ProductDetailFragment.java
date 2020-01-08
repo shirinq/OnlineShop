@@ -1,6 +1,7 @@
 package com.example.onlineshop.view;
 
 
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,8 @@ import com.example.onlineshop.databinding.ProductDetailFragmentBinding;
 import com.example.onlineshop.model.MyQualifier;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.view.Adapter.RecyclerAdapter;
+import com.example.onlineshop.viewmodel.ProductViewModel;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -58,6 +61,8 @@ public class ProductDetailFragment extends Fragment {
         mBinding = DataBindingUtil.inflate(inflater,R.layout.product_detail_fragment,container,false);
         setupRecycler();
         Picasso.get().load(mProduct.getImageUrl().get(0).getSrc()).into(mBinding.bigImage);
+        mBinding.setProductViewModel(new ProductViewModel(mProduct));
+        mBinding.productRegularPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         return mBinding.getRoot();
     }
 
@@ -66,9 +71,5 @@ public class ProductDetailFragment extends Fragment {
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         mBinding.smallImagesList.setLayoutManager(layoutManager);
         mBinding.smallImagesList.setAdapter(mAdapter);
-    }
-
-    public Product getProduct(){
-        return mProduct;
     }
 }

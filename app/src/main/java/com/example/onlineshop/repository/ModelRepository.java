@@ -190,6 +190,8 @@ public class ModelRepository {
         return mLiveProduct;
     }
 
+
+
     /**
      * SEARCH RESULT
      *

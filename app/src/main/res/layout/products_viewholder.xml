@@ -22,14 +22,14 @@
                 android:id="@+id/chip"
                 android:textColor="@color/link"
                 style="@style/AppTheme.Chip"
+                android:layout_gravity="right"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:text="@string/see_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detail"
-                android:orientation="vertical"
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:background="#77000000"
@@ -38,28 +38,14 @@
                 <TextView
                     android:id="@+id/product_name"
                     tools:text="اسم کالا"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/product_rate"
                     android:fontFamily="@font/iran_yekan_reqular_mobile_fa_num"
                     android:textColor="#ffffffff"
                     style="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_gravity="right"
-                    android:layout_width="290dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/product_price"
-                    tools:text="2/000"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/iran_yekan_reqular_mobile_fa_num"
-                    android:textColor="#ffffffff"
-                    android:layout_marginLeft="15dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
             <TextView
                 android:id="@+id/product_rate"
                 tools:text="3.10"
@@ -67,19 +53,23 @@
                 android:layout_gravity="bottom|left"
                 style="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#ffffffff"
-                android:layout_marginLeft="27dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="6dp"
+                android:padding="2dp"
+                app:layout_constraintTop_toBottomOf="@id/product_name"
+                app:layout_constraintLeft_toRightOf="@id/star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
             <ImageView
                 android:id="@+id/star"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="3dp"
                 android:src="@drawable/ic_star_yellow"
+                app:layout_constraintTop_toBottomOf="@id/product_name"
+                app:layout_constraintRight_toLeftOf="@id/product_rate"
+                android:layout_margin="7dp"
+                android:padding="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </FrameLayout>
 
