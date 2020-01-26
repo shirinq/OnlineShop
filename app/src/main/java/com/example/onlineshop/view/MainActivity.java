@@ -17,12 +17,14 @@ import com.example.onlineshop.model.MyQualifier;
 import com.example.onlineshop.view.Adapter.ViewHolders.CategoryViewHolder;
 import com.example.onlineshop.view.Adapter.ViewHolders.SeeMoreViewHolder;
 import com.example.onlineshop.viewmodel.MainActivityViewModel;
+import com.example.onlineshop.viewmodel.RequestViewModel;
 
 public class MainActivity extends AppCompatActivity implements CategoryViewHolder.FragmentAdder, SeeMoreViewHolder.SeeMoreFragmentAdder {
 
     private ActivityMainBinding mBinding;
     private MainActivityViewModel mainViewModel;
     private boolean doubleBackToExitPressedOnce = false;
+    private RequestViewModel mRequestViewModel;
 
     public static Intent newIntent(Context context){
         return new Intent(context,MainActivity.class);
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements CategoryViewHolde
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
 
         mainViewModel = new MainActivityViewModel(mBinding);
+
+        mRequestViewModel = new RequestViewModel();
 
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements CategoryViewHolde
 
     @Override
     public void CategoryDetail(int categoryId) {
+        mRequestViewModel.getCategoryProducts(1,categoryId);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, ProductsListFragment.newInstance(categoryId))
                 .addToBackStack("CategoryProductsFragment")

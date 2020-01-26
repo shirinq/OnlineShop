@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.onlineshop.R;
 import com.example.onlineshop.databinding.ListContainerBinding;
@@ -33,7 +34,7 @@ public class CategoriesFragment extends ParentFragment {
     private RepositoryViewModel mRepositoryViewModel;
     private RequestViewModel mRequestViewModel;
     private ConnectivityViewModel mConnectivityViewModel;
-    private int mCurrentPage = 1;
+    private int mCurrentPage = 2;
 
 
     public CategoriesFragment() {
@@ -72,7 +73,9 @@ public class CategoriesFragment extends ParentFragment {
 
     @Override
     public void ConnectivityChange() {
-        makeRequest();
+        if (!mConnectivityViewModel.checkConnectivity())
+            Toast.makeText(getContext(),R.string.no_connection,Toast.LENGTH_SHORT).show();
+        //makeRequest();
     }
 
     private void RecyclerScrollHandler() {
@@ -91,10 +94,13 @@ public class CategoriesFragment extends ParentFragment {
     private void makeRequest() {
         if (!mConnectivityViewModel.checkConnectivity())
             return;
-        mBinding.progressBar.setVisibility(View.VISIBLE);
+
         boolean hasNext = mRequestViewModel.getCategories(mCurrentPage);
         mCurrentPage++;
-        if (hasNext)
+
+        if (!hasNext)
             mBinding.progressBar.setVisibility(View.GONE);
+        else
+            mBinding.progressBar.setVisibility(View.VISIBLE);
     }
 }

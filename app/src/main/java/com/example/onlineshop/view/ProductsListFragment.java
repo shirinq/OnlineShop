@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.onlineshop.R;
 import com.example.onlineshop.databinding.ListContainerBinding;
@@ -37,8 +38,7 @@ public class ProductsListFragment extends ParentFragment {
     private ConnectivityViewModel mConnectivityViewModel;
 
     private Integer mCategoryId;
-    private int mCurrentPage = 1;
-
+    private int mCurrentPage = 2;
 
     public ProductsListFragment() {
         // Required empty public constructor
@@ -98,7 +98,9 @@ public class ProductsListFragment extends ParentFragment {
 
     @Override
     public void ConnectivityChange() {
-        makeRequest();
+        if (!mConnectivityViewModel.checkConnectivity())
+            Toast.makeText(getContext(),R.string.no_connection,Toast.LENGTH_SHORT).show();
+        //makeRequest();
     }
 
     private void RecyclerScrollHandler() {
@@ -118,11 +120,12 @@ public class ProductsListFragment extends ParentFragment {
         if (!mConnectivityViewModel.checkConnectivity())
             return;
 
-        mBinding.progressBar.setVisibility(View.VISIBLE);
         boolean hasNext = mRequestViewModel.getCategoryProducts(mCurrentPage, mCategoryId);
         mCurrentPage++;
         if (!hasNext)
             mBinding.progressBar.setVisibility(View.GONE);
+        else
+            mBinding.progressBar.setVisibility(View.VISIBLE);
     }
 
 }

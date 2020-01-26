@@ -59,7 +59,7 @@ public class HomePageFragment extends Fragment {
         mViewModel.LivePopular().observe(this, products -> mPopularAdapter.setList(products));
         mViewModel.LiveTopRated().observe(this, products -> mTopRatedAdapter.setList(products));
 
-        mViewModel.LiveProduct().observe(this, product -> mSliderAdapter.setList(product.getImageUrl()));
+        mViewModel.LiveSlider().observe(this, product -> mSliderAdapter.setList(product.getImageUrl()));
     }
 
     @Override

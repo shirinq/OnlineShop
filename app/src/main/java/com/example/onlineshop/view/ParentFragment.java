@@ -41,18 +41,18 @@ public abstract class ParentFragment extends Fragment {
             }
         };
 
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         getActivity().registerReceiver(mReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         getActivity().unregisterReceiver(mReceiver);
     }
 

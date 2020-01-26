@@ -1,5 +1,6 @@
 package com.example.onlineshop.repository;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.onlineshop.model.Category;
@@ -20,6 +21,7 @@ public class ModelRepository {
     private MutableLiveData<List<Category>> mLiveCategories;
     private MutableLiveData<List<Product>> mLiveSearchResult;
     private MutableLiveData<Product> mLiveProduct;
+    private MutableLiveData<Product> mLiveSlider;
 
     private int mTotalProducts;
     private int mTotalCategories;
@@ -40,6 +42,7 @@ public class ModelRepository {
         mLivePopularProducts = new MutableLiveData<>();
         mLiveSearchResult = new MutableLiveData<>();
         mLiveProduct = new MutableLiveData<>();
+        mLiveSlider = new MutableLiveData<>();
         mModelGetter = new ModelGetter(this);
     }
 
@@ -47,6 +50,10 @@ public class ModelRepository {
         if (mInstance == null)
             mInstance = new ModelRepository();
         return mInstance;
+    }
+
+    public void setRequestOwner(LifecycleOwner viewGroup){
+        mModelGetter.setViewGroup(viewGroup);
     }
 
     /**
@@ -183,6 +190,7 @@ public class ModelRepository {
      * @param id
      */
     public void getProduct(int id) {
+        mLiveProduct = new MutableLiveData<>();
         mModelGetter.getSingleProductFromNet(id);
     }
 
@@ -190,8 +198,17 @@ public class ModelRepository {
         return mLiveProduct;
     }
 
+    /**
+     * Slider
+     */
 
+    public void getSlider() {
+        mModelGetter.getSliderFromNet();
+    }
 
+    public MutableLiveData<Product> getLiveSlider() {
+        return mLiveSlider;
+    }
     /**
      * SEARCH RESULT
      *

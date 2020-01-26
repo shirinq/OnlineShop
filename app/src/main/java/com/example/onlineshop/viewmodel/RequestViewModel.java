@@ -1,5 +1,7 @@
 package com.example.onlineshop.viewmodel;
 
+import androidx.lifecycle.LifecycleOwner;
+
 import com.example.onlineshop.repository.ModelRepository;
 
 public class RequestViewModel {
@@ -12,11 +14,11 @@ public class RequestViewModel {
     }
 
     public void getModels(){
-        mRepository.getAllProducts(1);
         mRepository.getRecentProducts(1);
         mRepository.getPopularProducts(1);
         mRepository.getTopRatedProducts(1);
         mRepository.getCategories(1);
+        mRepository.getSlider();
     }
 
     public boolean getCategories(int page){
@@ -29,5 +31,9 @@ public class RequestViewModel {
 
     public void getProduct(int productId){
         mRepository.getProduct(productId);
+    }
+
+    public void setRequestOwner(LifecycleOwner view){
+        mRepository.setRequestOwner(view);
     }
 }

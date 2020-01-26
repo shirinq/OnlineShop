@@ -1,6 +1,9 @@
 package com.example.onlineshop.network;
 
 import android.util.Log;
+import android.view.ViewGroup;
+
+import androidx.lifecycle.LifecycleOwner;
 
 import com.example.onlineshop.model.Category;
 import com.example.onlineshop.model.Product;
@@ -22,6 +25,7 @@ public class ModelGetter {
 
     private String TAG = "ProductGetter";
     private String baseUrl = "https://woocommerce.maktabsharif.ir/wp-json/wc/v3/products/";
+    private NetworkUser mNetworkUser;
 
     private Map<String, String> mQueryMap = new HashMap<String, String>() {{
 
@@ -70,6 +74,7 @@ public class ModelGetter {
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.d(TAG, "onFailure: ProductsHolder " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
     }
@@ -91,6 +96,27 @@ public class ModelGetter {
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
                 Log.d(TAG, "onFailure: getProduct " + t.getMessage());
+                mNetworkUser.onFailureCalled();
+            }
+        });
+    }
+
+    /**+
+     * Slider
+     */
+    public void getSliderFromNet() {
+
+        mRequestService.getProduct(608, mQueryMap).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (response.isSuccessful())
+                    mRepository.getLiveSlider().setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                Log.d(TAG, "onFailure: getSlider " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
     }
@@ -123,7 +149,9 @@ public class ModelGetter {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                mNetworkUser.onFailureCalled();
                 Log.d(TAG, "onFailure: RecentProducts " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
     }
@@ -155,6 +183,7 @@ public class ModelGetter {
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.d(TAG, "onFailure: TopRatedProducts " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
     }
@@ -188,6 +217,7 @@ public class ModelGetter {
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.d(TAG, "onFailure: PopularProducts " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
     }
@@ -221,6 +251,7 @@ public class ModelGetter {
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.d(TAG, "onFailure: ProductsOfCategory " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
     }
@@ -255,6 +286,7 @@ public class ModelGetter {
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
                 Log.d(TAG, "onFailure: Categories " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
     }
@@ -290,7 +322,18 @@ public class ModelGetter {
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.d(TAG, "onFailure: searchProducts " + t.getMessage());
+                mNetworkUser.onFailureCalled();
             }
         });
+    }
+
+
+
+    public void setViewGroup(LifecycleOwner owner){
+        mNetworkUser = (NetworkUser) owner;
+    }
+
+    public interface NetworkUser {
+        void onFailureCalled();
     }
 }

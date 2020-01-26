@@ -12,6 +12,7 @@
             <ImageView
                 android:id="@+id/category_image"
                 android:padding="25dp"
+
                 android:background="@color/category_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

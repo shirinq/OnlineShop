@@ -2,6 +2,7 @@ package com.example.onlineshop.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -10,12 +11,13 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.onlineshop.R;
+import com.example.onlineshop.network.ModelGetter;
 import com.example.onlineshop.viewmodel.RepositoryViewModel;
 import com.example.onlineshop.viewmodel.RequestViewModel;
 import com.example.onlineshop.viewmodel.ConnectivityViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements ModelGetter.NetworkUser {
 
     private RequestViewModel mRequestViewModel;
     private RepositoryViewModel mRepositoryViewModel;
@@ -34,6 +36,8 @@ public class SplashActivity extends AppCompatActivity {
         mRequestViewModel = new RequestViewModel();
         mRepositoryViewModel = new RepositoryViewModel();
         mConnectivity = ViewModelProviders.of(this).get(ConnectivityViewModel.class);
+
+        mRequestViewModel.setRequestOwner(this);
 
         makeRequest();
 
@@ -60,17 +64,20 @@ public class SplashActivity extends AppCompatActivity {
         textView.setOnClickListener(view -> makeRequest());
         mSnackbar.show();
         mAnim.pauseAnimation();
-
     }
 
     private void makeRequest() {
         if (mConnectivity.checkConnectivity()) {
             mRequestViewModel.getModels();
-            mRequestViewModel.getProduct(608);
             mAnim.playAnimation();
             if (mSnackbar != null)
                 mSnackbar.dismiss();
 
         } else showSnackBar();
+    }
+
+    @Override
+    public void onFailureCalled() {
+        showSnackBar();
     }
 }

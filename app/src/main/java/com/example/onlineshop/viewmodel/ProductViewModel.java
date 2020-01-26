@@ -8,6 +8,12 @@ import androidx.databinding.Bindable;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.view.ProductActivity;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
+
+import java.text.DecimalFormat;
+
 
 public class ProductViewModel extends BaseObservable {
 
@@ -32,31 +38,47 @@ public class ProductViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getName(){
+    public String getName() {
         return mProduct.getName();
     }
 
     @Bindable
-    public String getPrice(){
-        return mProduct.getPrice();
+    public String getPrice() {
+        String price = mProduct.getPrice();
+        if (price == null || price.equals(""))
+            price = "0";
+        DecimalFormat df = new DecimalFormat("#,###");
+        return df.format(Double.valueOf(price));
     }
 
     @Bindable
-    public String getRegularPrice(){
-        return mProduct.getRegularPrice();
+    public String getRegularPrice() {
+        String price = mProduct.getRegularPrice();
+        if (price == null || price.equals(""))
+            price = "0";
+        DecimalFormat df = new DecimalFormat("#,###");
+        return df.format(Double.valueOf(price));
     }
 
     @Bindable
-    public String getAvRate(){
+    public String getAvRate() {
         return mProduct.getAvRate();
     }
 
     @Bindable
-    public String getDescription(){
-        return mProduct.getDescription();
+    public String getDescription() {
+        String html = mProduct.getDescription();
+        if (html == null)
+            return html;
+        Document document = Jsoup.parse(html);
+        document.outputSettings(new Document.OutputSettings().prettyPrint(false));//makes html() preserve linebreaks and spacing
+        document.select("br").append("\\n");
+        document.select("p").prepend("\\n\\n");
+        String s = document.html().replaceAll("\\\\n", "\n");
+        return Jsoup.clean(s, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
     }
 
-    public void productDetail(){
-        mContext.startActivity(ProductActivity.newIntent(mContext,mProduct.getmId()));
+    public void productDetail() {
+        mContext.startActivity(ProductActivity.newIntent(mContext, mProduct.getmId()));
     }
 }

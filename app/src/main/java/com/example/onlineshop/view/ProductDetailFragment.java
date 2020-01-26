@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.onlineshop.R;
 import com.example.onlineshop.databinding.ProductDetailFragmentBinding;
@@ -21,7 +20,6 @@ import com.example.onlineshop.model.MyQualifier;
 import com.example.onlineshop.model.Product;
 import com.example.onlineshop.view.Adapter.RecyclerAdapter;
 import com.example.onlineshop.viewmodel.ProductViewModel;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 /**

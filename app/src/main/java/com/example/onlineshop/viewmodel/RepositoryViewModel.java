@@ -39,4 +39,8 @@ public class RepositoryViewModel {
     public LiveData<Product> LiveProduct(){
         return mRepository.getLiveProduct();
     }
+
+    public LiveData<Product> LiveSlider(){
+        return mRepository.getLiveSlider();
+    }
 }
